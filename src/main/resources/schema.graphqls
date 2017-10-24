@@ -1,0 +1,42 @@
+# a simple type representing a link
+type Link {
+    id: ID!
+    url: String!
+    description: String!
+    postedBy: User
+}
+
+# query to fetch all links
+type Query {
+    allLinks: [Link]
+}
+
+# describe a mutation
+type Mutation {
+    createUser(name: String!, authProvider: AuthData!): User
+    createLink(url: String!, description: String!): Link
+    signinUser(auth: AuthData): SigninPayload
+}
+
+type User {
+    id: ID!
+    name: String!
+    email: String
+    password: String
+}
+
+input AuthData {
+    email: String!
+    password: String!
+}
+
+type SigninPayload {
+    token: String
+    user: User
+}
+
+# the schema containing this query and mutation
+schema {
+    query: Query
+    mutation: Mutation
+}
