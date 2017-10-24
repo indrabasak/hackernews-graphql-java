@@ -89,7 +89,7 @@ type Mutation {
     createLink(url: String!, description: String!): Link
 }
 
-```javascript
+```
 http://localhost:8080/graphql?mutation={createLink(url: "http://www.graph.cool", description: "Serverless GraphQL Backend") {url description}}
 http://localhost:8080/?query=mutation%20createLink%20%7B%0A%20%20createLink(url%3A%20%22http%3A%2F%2Fwww.graph.cool%22%2C%20description%3A%20%22Serverless%20GraphQL%20Backend%22)%20%7B%0A%20%20%20%20url%0A%20%20%20%20description%0A%20%20%7D%0A%7D%0A&operationName=createLink
 
@@ -257,7 +257,13 @@ mutation link {
 ```
 
 ```json
-""
+{
+  "data": {
+    "createLink": {
+      "url": "https://en.wikipedia.org/wiki/Bojack_Horseman"
+    }
+  }
+}
 ```
 
 ```graphql
@@ -273,6 +279,60 @@ query all {
 }
 ```
 
+```json
+{
+  "data": {
+    "allLinks": [
+      {
+        "id": "59ef94e281804f6cb9f4dc68",
+        "url": "http://www.graph.cool",
+        "description": "Serverless GraphQL Backend",
+        "postedBy": null
+      },
+      {
+        "id": "59efc92c79bdda735ef97f1b",
+        "url": "https://en.wikipedia.org/wiki/Bojack_Horseman",
+        "description": "Bojack's wiki entry",
+        "postedBy": {
+          "name": "Bojack Horseman"
+        }
+      }
+    ]
+  }
+}
+```
+
+#### Voting for Links
+
+```graphql
+mutation vote {
+  createVote(linkId: "59efc92c79bdda735ef97f1b", userId: "59efc91179bdda735ef97f1a") {
+    createdAt
+    link {
+      url
+    }
+    user {
+      name
+    }
+  }
+}
+```
+
+```json
+{
+  "data": {
+    "createVote": {
+      "createdAt": "2017-10-24T23:37:19.589Z",
+      "link": {
+        "url": "https://en.wikipedia.org/wiki/Bojack_Horseman"
+      },
+      "user": {
+        "name": "Indra basak"
+      }
+    }
+  }
+}
+```
 
 [travis-badge]: https://travis-ci.org/indrabasak/hackernews-graphql-java.svg?branch=master
 [travis-badge-url]: https://travis-ci.org/indrabasak/hackernews-graphql-java/

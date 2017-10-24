@@ -13,6 +13,11 @@ public class LinkInMemoryRepository implements LinkRepository {
 
     private final List<Link> links;
 
+    public Link findById(String id) {
+        return links.stream().filter(
+                l -> l.getId().equals(id)).findFirst().get();
+    }
+
     public LinkInMemoryRepository() {
         links = new ArrayList<>();
         //add some links to start off with

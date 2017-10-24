@@ -21,8 +21,11 @@ public class UserRepository {
     }
 
     public User findById(String id) {
+        System.out.println("---------------------- UserRepository.findById() " + id);
         Document doc = users.find(eq("_id", new ObjectId(id))).first();
-        return user(doc);
+        User user = user(doc);
+        System.out.println(user);
+        return user;
     }
 
     public User saveUser(User user) {

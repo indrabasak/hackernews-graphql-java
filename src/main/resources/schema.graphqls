@@ -1,9 +1,7 @@
-# a simple type representing a link
-type Link {
-    id: ID!
-    url: String!
-    description: String!
-    postedBy: User
+# the schema containing this query and mutation
+schema {
+    query: Query
+    mutation: Mutation
 }
 
 # query to fetch all links
@@ -16,6 +14,15 @@ type Mutation {
     createUser(name: String!, authProvider: AuthData!): User
     createLink(url: String!, description: String!): Link
     signinUser(auth: AuthData): SigninPayload
+    createVote(linkId: ID, userId: ID): Vote
+}
+
+# a simple type representing a link
+type Link {
+    id: ID!
+    url: String!
+    description: String!
+    postedBy: User
 }
 
 type User {
@@ -35,8 +42,11 @@ type SigninPayload {
     user: User
 }
 
-# the schema containing this query and mutation
-schema {
-    query: Query
-    mutation: Mutation
+type Vote {
+    id: ID!
+    createdAt: DateTime!
+    user: User!
+    link: Link!
 }
+
+scalar DateTime

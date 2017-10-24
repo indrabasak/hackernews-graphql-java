@@ -22,14 +22,18 @@ public class LinkMongoDBRepository implements LinkRepository {
     }
 
     public List<Link> getAllLinks() {
+        System.out.println("-------------- LinkMongoDBRepository.getAllLinks()");
         List<Link> allLinks = new ArrayList<>();
         for (Document doc : links.find()) {
-            allLinks.add(link(doc));
+            Link lnk = link(doc);
+            System.out.println(lnk);
+            allLinks.add(lnk);
         }
         return allLinks;
     }
 
     public void saveLink(Link link) {
+        System.out.println("-------------- LinkMongoDBRepository.saveLink()");
         Document doc = new Document();
         doc.append("url", link.getUrl());
         doc.append("description", link.getDescription());

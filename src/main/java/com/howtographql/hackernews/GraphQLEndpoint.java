@@ -2,9 +2,11 @@ package com.howtographql.hackernews;
 
 import com.coxautodev.graphql.tools.SchemaParser;
 import com.howtographql.hackernews.model.User;
+import com.howtographql.hackernews.model.VoteResolver;
 import com.howtographql.hackernews.repository.LinkMongoDBRepository;
 import com.howtographql.hackernews.repository.LinkRepository;
 import com.howtographql.hackernews.repository.UserRepository;
+import com.howtographql.hackernews.repository.VoteRepository;
 import com.howtographql.hackernews.resolver.LinkResolver;
 import com.howtographql.hackernews.resolver.Mutation;
 import com.howtographql.hackernews.resolver.Query;
@@ -30,6 +32,8 @@ public class GraphQLEndpoint extends SimpleGraphQLServlet {
 
     private static final UserRepository userRepository;
 
+    private static final VoteRepository voteRepository;
+
     static {
         //Change to `new MongoClient("mongodb://<host>:<port>/hackernews")`
         //if you don't have Mongo running locally on port 27017
@@ -37,6 +41,7 @@ public class GraphQLEndpoint extends SimpleGraphQLServlet {
         linkRepository =
                 new LinkMongoDBRepository(mongo.getCollection("links"));
         userRepository = new UserRepository(mongo.getCollection("users"));
+        voteRepository = new VoteRepository(mongo.getCollection("votes"));
     }
 
     public GraphQLEndpoint() {
@@ -52,9 +57,11 @@ public class GraphQLEndpoint extends SimpleGraphQLServlet {
         return SchemaParser.newParser()
                 .file("schema.graphqls")
                 .resolvers(new Query(linkRepository),
-                        new Mutation(linkRepository, userRepository),
+                        new Mutation(linkRepository, userRepository, voteRepository),
                         new SigninResolver(),
-                        new LinkResolver(userRepository))
+                        new LinkResolver(userRepository),
+                        new VoteResolver(linkRepository, userRepository))
+                .scalars(Scalars.dateTime) //register the new scalar
                 .build()
                 .makeExecutableSchema();
     }
@@ -72,12 +79,15 @@ public class GraphQLEndpoint extends SimpleGraphQLServlet {
     @Override
     protected GraphQLContext createContext(Optional<HttpServletRequest> request,
             Optional<HttpServletResponse> response) {
+        System.out.println(
+                "---------------------- GraphQLEndpoint.createContext()");
         User user = request
                 .map(req -> req.getHeader("Authorization"))
                 .filter(id -> !id.isEmpty())
                 .map(id -> id.replace("Bearer ", ""))
                 .map(userRepository::findById)
                 .orElse(null);
+        System.out.println("user:" + user);
         return new AuthContext(user, request, response);
     }
 }

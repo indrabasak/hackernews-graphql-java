@@ -35,4 +35,14 @@ public class Link {
     public String getUserId() {
         return userId;
     }
+
+    @Override
+    public String toString() {
+        return "Link{" +
+                "id='" + id + '\'' +
+                ", url='" + url + '\'' +
+                ", description='" + description + '\'' +
+                ", userId='" + userId + '\'' +
+                '}';
+    }
 }

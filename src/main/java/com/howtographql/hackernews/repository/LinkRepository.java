@@ -5,6 +5,8 @@ import java.util.List;
 
 public interface LinkRepository {
 
+    Link findById(String id);
+
     List<Link> getAllLinks();
 
     void saveLink(Link link);
