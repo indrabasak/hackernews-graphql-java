@@ -8,7 +8,7 @@ public interface LinkRepository {
 
     Link findById(String id);
 
-    List<Link> getAllLinks(LinkFilter filter);
+    List<Link> getAllLinks(LinkFilter filter, int skip, int first);
 
     void saveLink(Link link);
 }

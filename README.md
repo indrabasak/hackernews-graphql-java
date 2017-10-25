@@ -399,5 +399,52 @@ query links {
 }
 ```
 
+#### Filtering
+
+```graphql
+query links {
+  allLinks(first: 1) {
+    description
+    url
+  }
+}
+```
+
+```json
+{
+  "data": {
+    "allLinks": [
+      {
+        "description": "Serverless GraphQL Backend",
+        "url": "http://www.graph.cool"
+      }
+    ]
+  }
+}
+```
+
+#### Pagination
+```graphql
+query links {
+  allLinks(first: 1) {
+    description
+    url
+  }
+}
+```
+
+```json
+{
+  "data": {
+    "allLinks": [
+      {
+        "description": "Serverless GraphQL Backend",
+        "url": "http://www.graph.cool"
+      }
+    ]
+  }
+}
+```
+
 [travis-badge]: https://travis-ci.org/indrabasak/hackernews-graphql-java.svg?branch=master
 [travis-badge-url]: https://travis-ci.org/indrabasak/hackernews-graphql-java/

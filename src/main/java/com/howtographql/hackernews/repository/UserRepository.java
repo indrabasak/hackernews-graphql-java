@@ -7,6 +7,7 @@ import org.bson.types.ObjectId;
 
 import static com.mongodb.client.model.Filters.eq;
 
+@SuppressWarnings({"squid:S1192"})
 public class UserRepository {
 
     private final MongoCollection<Document> users;
@@ -21,11 +22,8 @@ public class UserRepository {
     }
 
     public User findById(String id) {
-        System.out.println("---------------------- UserRepository.findById() " + id);
         Document doc = users.find(eq("_id", new ObjectId(id))).first();
-        User user = user(doc);
-        System.out.println(user);
-        return user;
+        return user(doc);
     }
 
     public User saveUser(User user) {

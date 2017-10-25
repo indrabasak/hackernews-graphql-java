@@ -6,6 +6,7 @@ import graphql.schema.GraphQLScalarType;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
+@SuppressWarnings({"squid:S1118", "squid:S1444", "squid:ClassVariableVisibilityCheck"})
 public class Scalars {
 
     public static GraphQLScalarType

@@ -2,6 +2,7 @@ package com.howtographql.hackernews.repository;
 
 import com.howtographql.hackernews.model.Link;
 import com.howtographql.hackernews.model.LinkFilter;
+import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +15,7 @@ import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;
 import static com.mongodb.client.model.Filters.regex;
 
+@SuppressWarnings({"squid:S1192"})
 public class LinkMongoDBRepository implements LinkRepository {
     private final MongoCollection<Document> links;
 
@@ -26,24 +28,21 @@ public class LinkMongoDBRepository implements LinkRepository {
         return link(doc);
     }
 
-    public List<Link> getAllLinks(LinkFilter filter) {
+    public List<Link> getAllLinks(LinkFilter filter, int skip, int first) {
         Optional<Bson>
                 mongoFilter =
                 Optional.ofNullable(filter).map(this::buildFilter);
-        System.out.println(
-                "-------------- LinkMongoDBRepository.getAllLinks()");
         List<Link> allLinks = new ArrayList<>();
-        for (Document doc : mongoFilter.map(links::find).orElseGet(
-                links::find)) {
-            Link lnk = link(doc);
-            System.out.println(lnk);
-            allLinks.add(lnk);
+        FindIterable<Document>
+                documents = mongoFilter.map(links::find).orElseGet(links::find);
+        for (Document doc : documents.skip(skip).limit(first)) {
+            allLinks.add(link(doc));
         }
+
         return allLinks;
     }
 
     public void saveLink(Link link) {
-        System.out.println("-------------- LinkMongoDBRepository.saveLink()");
         Document doc = new Document();
         doc.append("url", link.getUrl());
         doc.append("description", link.getDescription());

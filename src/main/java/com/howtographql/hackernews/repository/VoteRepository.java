@@ -10,6 +10,7 @@ import org.bson.Document;
 
 import static com.mongodb.client.model.Filters.eq;
 
+@SuppressWarnings({"squid:S1192"})
 public class VoteRepository {
 
     private final MongoCollection<Document> votes;

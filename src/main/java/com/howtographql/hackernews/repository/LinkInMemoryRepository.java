@@ -10,6 +10,7 @@ import java.util.List;
  * concern of saving and loading links from the storage. This also makes future
  * extensions and refactoring a lot easier.
  */
+@SuppressWarnings({"squid:S3655"})
 public class LinkInMemoryRepository implements LinkRepository {
 
     private final List<Link> links;
@@ -28,7 +29,7 @@ public class LinkInMemoryRepository implements LinkRepository {
                 "ex2"));
     }
 
-    public List<Link> getAllLinks(LinkFilter filter) {
+    public List<Link> getAllLinks(LinkFilter filter, int skip, int first) {
         return links;
     }
 

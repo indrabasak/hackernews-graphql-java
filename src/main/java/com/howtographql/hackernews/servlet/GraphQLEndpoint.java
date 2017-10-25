@@ -29,6 +29,7 @@ import javax.servlet.http.HttpServletResponse;
  * endpoint.
  */
 @WebServlet(urlPatterns = "/graphql")
+@SuppressWarnings({"squid:S2226"})
 public class GraphQLEndpoint extends SimpleGraphQLServlet {
 
     private static final LinkRepository linkRepository;
@@ -47,7 +48,7 @@ public class GraphQLEndpoint extends SimpleGraphQLServlet {
         voteRepository = new VoteRepository(mongo.getCollection("votes"));
     }
 
-    private CustomGraphQLErrorHandler errorHandler;
+    private final CustomGraphQLErrorHandler errorHandler;
 
     public GraphQLEndpoint() {
         super(buildSchema());
@@ -86,15 +87,12 @@ public class GraphQLEndpoint extends SimpleGraphQLServlet {
     @Override
     protected GraphQLContext createContext(Optional<HttpServletRequest> request,
             Optional<HttpServletResponse> response) {
-        System.out.println(
-                "---------------------- GraphQLEndpoint.createContext()");
         User user = request
                 .map(req -> req.getHeader("Authorization"))
                 .filter(id -> !id.isEmpty())
                 .map(id -> id.replace("Bearer ", ""))
                 .map(userRepository::findById)
                 .orElse(null);
-        System.out.println("user:" + user);
         return new AuthContext(user, request, response);
     }
 

@@ -19,6 +19,7 @@ import java.time.ZonedDateTime;
 /**
  * {@code Mutation} represents the mutation resolver class.
  */
+@SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
 public class Mutation implements GraphQLMutationResolver {
 
     private final LinkRepository linkRepository;

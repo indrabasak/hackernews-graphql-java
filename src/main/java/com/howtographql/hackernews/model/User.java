@@ -1,5 +1,6 @@
 package com.howtographql.hackernews.model;
 
+@SuppressWarnings({"squid:S2068"})
 public class User {
 
     private final String id;
