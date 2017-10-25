@@ -1,6 +1,6 @@
 package com.howtographql.hackernews.repository;
 
-import com.howtographql.hackernews.Scalars;
+import com.howtographql.hackernews.schema.Scalars;
 import com.howtographql.hackernews.model.Vote;
 import com.mongodb.client.MongoCollection;
 import java.time.ZonedDateTime;

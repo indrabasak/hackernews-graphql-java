@@ -1,6 +1,8 @@
-package com.howtographql.hackernews;
+package com.howtographql.hackernews.servlet;
 
 import com.coxautodev.graphql.tools.SchemaParser;
+import com.howtographql.hackernews.schema.Scalars;
+import com.howtographql.hackernews.error.CustomGraphQLErrorHandler;
 import com.howtographql.hackernews.model.User;
 import com.howtographql.hackernews.model.VoteResolver;
 import com.howtographql.hackernews.repository.LinkMongoDBRepository;
@@ -15,6 +17,7 @@ import com.mongodb.MongoClient;
 import com.mongodb.client.MongoDatabase;
 import graphql.schema.GraphQLSchema;
 import graphql.servlet.GraphQLContext;
+import graphql.servlet.GraphQLErrorHandler;
 import graphql.servlet.SimpleGraphQLServlet;
 import java.util.Optional;
 import javax.servlet.annotation.WebServlet;
@@ -44,8 +47,11 @@ public class GraphQLEndpoint extends SimpleGraphQLServlet {
         voteRepository = new VoteRepository(mongo.getCollection("votes"));
     }
 
+    private CustomGraphQLErrorHandler errorHandler;
+
     public GraphQLEndpoint() {
         super(buildSchema());
+        errorHandler = new CustomGraphQLErrorHandler();
     }
 
     /**
@@ -57,7 +63,8 @@ public class GraphQLEndpoint extends SimpleGraphQLServlet {
         return SchemaParser.newParser()
                 .file("schema.graphqls")
                 .resolvers(new Query(linkRepository),
-                        new Mutation(linkRepository, userRepository, voteRepository),
+                        new Mutation(linkRepository, userRepository,
+                                voteRepository),
                         new SigninResolver(),
                         new LinkResolver(userRepository),
                         new VoteResolver(linkRepository, userRepository))
@@ -89,5 +96,10 @@ public class GraphQLEndpoint extends SimpleGraphQLServlet {
                 .orElse(null);
         System.out.println("user:" + user);
         return new AuthContext(user, request, response);
+    }
+
+    @Override
+    protected GraphQLErrorHandler getGraphQLErrorHandler() {
+        return errorHandler;
     }
 }

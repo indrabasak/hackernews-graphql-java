@@ -1,4 +1,4 @@
-package com.howtographql.hackernews;
+package com.howtographql.hackernews.schema;
 
 import graphql.language.StringValue;
 import graphql.schema.Coercing;

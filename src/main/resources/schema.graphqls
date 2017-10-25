@@ -6,7 +6,13 @@ schema {
 
 # query to fetch all links
 type Query {
-    allLinks: [Link]
+#    allLinks: [Link]
+    allLinks(filter: LinkFilter): [Link]
+}
+
+input LinkFilter {
+    description_contains: String
+    url_contains: String
 }
 
 # describe a mutation

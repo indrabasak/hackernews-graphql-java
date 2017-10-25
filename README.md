@@ -333,6 +333,71 @@ mutation vote {
   }
 }
 ```
+#### Error Handling
+
+```graphql
+mutation signIn {
+  signinUser(auth: {email: "bojack@example.com", password: "secretx"}) {
+    token
+    user {
+      id
+      name
+    }
+  }
+}
+```
+
+```json
+{
+  "data": {
+    "signinUser": null
+  },
+  "errors": [
+    {
+      "message": "Internal Server Error(s) while executing query",
+      "path": null,
+      "extensions": null
+    }
+  ]
+}
+```
+
+```json
+{
+  "data": {
+    "signinUser": null
+  },
+  "errors": [
+    {
+      "message": "Exception while fetching data (/signinUser) : Invalid credentials",
+      "errorType": "DataFetchingException"
+    }
+  ]
+}
+```
+
+#### Filtering
+```graphql
+query links {
+  allLinks(filter: {description_contains: "back", url_contains: "cool"}) {
+    description
+    url
+  }
+}
+```
+
+```json
+{
+  "data": {
+    "allLinks": [
+      {
+        "description": "Serverless GraphQL Backend",
+        "url": "http://www.graph.cool"
+      }
+    ]
+  }
+}
+```
 
 [travis-badge]: https://travis-ci.org/indrabasak/hackernews-graphql-java.svg?branch=master
 [travis-badge-url]: https://travis-ci.org/indrabasak/hackernews-graphql-java/

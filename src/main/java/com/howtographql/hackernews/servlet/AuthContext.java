@@ -1,4 +1,4 @@
-package com.howtographql.hackernews;
+package com.howtographql.hackernews.servlet;
 
 import com.howtographql.hackernews.model.User;
 import graphql.servlet.GraphQLContext;

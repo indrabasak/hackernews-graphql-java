@@ -1,7 +1,7 @@
 package com.howtographql.hackernews.resolver;
 
 import com.coxautodev.graphql.tools.GraphQLMutationResolver;
-import com.howtographql.hackernews.AuthContext;
+import com.howtographql.hackernews.servlet.AuthContext;
 import com.howtographql.hackernews.model.AuthData;
 import com.howtographql.hackernews.model.Link;
 import com.howtographql.hackernews.model.SigninPayload;

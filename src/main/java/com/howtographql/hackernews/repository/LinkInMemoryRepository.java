@@ -1,6 +1,7 @@
 package com.howtographql.hackernews.repository;
 
 import com.howtographql.hackernews.model.Link;
+import com.howtographql.hackernews.model.LinkFilter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +28,7 @@ public class LinkInMemoryRepository implements LinkRepository {
                 "ex2"));
     }
 
-    public List<Link> getAllLinks() {
+    public List<Link> getAllLinks(LinkFilter filter) {
         return links;
     }
 
